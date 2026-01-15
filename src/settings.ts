@@ -7,7 +7,7 @@ export interface GraphRefresherPluginSettings {
 }
 
 export const DEFAULT_SETTINGS: GraphRefresherPluginSettings = {
-	idleDelay: 10000,
+	idleDelay: 30000,
 	intervalDelay: 5000,
 };
 
@@ -26,10 +26,10 @@ export class GraphRefresherSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName("Idle time before refresh")
-			.setDesc("Set with ms(default: 10000 = 10s)")
+			.setDesc("Set with ms(default: 30000 = 30s)")
 			.addText((text) =>
 				text
-					.setPlaceholder("10000")
+					.setPlaceholder("30000")
 					.setValue(this.plugin.settings.idleDelay.toString())
 					.onChange(async (value) => {
 						this.plugin.settings.idleDelay = parseInt(value);
