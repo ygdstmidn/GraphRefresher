@@ -70,7 +70,9 @@ export default class GraphRefresherPlugin extends Plugin {
 			"Graph Refresher Plugin: Graph view refreshed due to inactivity."
 		);
 
-		this.resetIdleTimer();
+		this.idleTimer = window.setTimeout(() => {
+			this.refreshGraphView().catch(console.error);
+		}, this.settings.intervalDelay);
 	}
 
 	async loadSettings() {

@@ -3,10 +3,12 @@ import GraphRefresherPlugin from "./main";
 
 export interface GraphRefresherPluginSettings {
 	idleDelay: number;
+	intervalDelay: number;
 }
 
 export const DEFAULT_SETTINGS: GraphRefresherPluginSettings = {
 	idleDelay: 10000,
+	intervalDelay: 5000,
 };
 
 export class GraphRefresherSettingTab extends PluginSettingTab {
@@ -31,6 +33,19 @@ export class GraphRefresherSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.idleDelay.toString())
 					.onChange(async (value) => {
 						this.plugin.settings.idleDelay = parseInt(value);
+						await this.plugin.saveSettings();
+					})
+			);
+
+		new Setting(containerEl)
+			.setName("Refresh interval")
+			.setDesc("Set with ms(default: 5000 = 5s)")
+			.addText((text) =>
+				text
+					.setPlaceholder("5000")
+					.setValue(this.plugin.settings.intervalDelay.toString())
+					.onChange(async (value) => {
+						this.plugin.settings.intervalDelay = parseInt(value);
 						await this.plugin.saveSettings();
 					})
 			);
