@@ -2,12 +2,10 @@ import { App, PluginSettingTab, Setting } from "obsidian";
 import GraphRefresherPlugin from "./main";
 
 export interface GraphRefresherPluginSettings {
-	mySetting: string;
 	idleDelay: number;
 }
 
 export const DEFAULT_SETTINGS: GraphRefresherPluginSettings = {
-	mySetting: "default",
 	idleDelay: 10000,
 };
 
@@ -23,19 +21,6 @@ export class GraphRefresherSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 
 		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName("Settings #1")
-			.setDesc("It's a secret")
-			.addText((text) =>
-				text
-					.setPlaceholder("Enter your secret")
-					.setValue(this.plugin.settings.mySetting)
-					.onChange(async (value) => {
-						this.plugin.settings.mySetting = value;
-						await this.plugin.saveSettings();
-					})
-			);
 
 		new Setting(containerEl)
 			.setName("Idle time before refresh")
