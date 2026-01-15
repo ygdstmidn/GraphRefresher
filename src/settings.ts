@@ -1,36 +1,53 @@
-import {App, PluginSettingTab, Setting} from "obsidian";
-import MyPlugin from "./main";
+import { App, PluginSettingTab, Setting } from "obsidian";
+import GraphRefresherPlugin from "./main";
 
-export interface MyPluginSettings {
+export interface GraphRefresherPluginSettings {
 	mySetting: string;
+	idleDelay: number;
 }
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
-}
+export const DEFAULT_SETTINGS: GraphRefresherPluginSettings = {
+	mySetting: "default",
+	idleDelay: 10000,
+};
 
-export class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+export class GraphRefresherSettingTab extends PluginSettingTab {
+	plugin: GraphRefresherPlugin;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: GraphRefresherPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
 
 	display(): void {
-		const {containerEl} = this;
+		const { containerEl } = this;
 
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Settings #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
-				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
+			.setName("Settings #1")
+			.setDesc("It's a secret")
+			.addText((text) =>
+				text
+					.setPlaceholder("Enter your secret")
+					.setValue(this.plugin.settings.mySetting)
+					.onChange(async (value) => {
+						this.plugin.settings.mySetting = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		new Setting(containerEl)
+			.setName("Idle time before refresh")
+			.setDesc("Set with ms(default: 10000 = 10s)")
+			.addText((text) =>
+				text
+					.setPlaceholder("10000")
+					.setValue(this.plugin.settings.idleDelay.toString())
+					.onChange(async (value) => {
+						this.plugin.settings.idleDelay = parseInt(value);
+						await this.plugin.saveSettings();
+					})
+			);
 	}
 }
