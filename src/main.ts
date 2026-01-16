@@ -44,11 +44,11 @@ export default class GraphRefresherPlugin extends Plugin {
 			window.clearTimeout(this.idleTimer);
 		}
 		this.idleTimer = window.setTimeout(() => {
-			this.refreshGraphView().catch(console.error);
+			this.refreshGraphView();
 		}, this.settings.idleDelay);
 	}
 
-	async refreshGraphView() {
+	refreshGraphView() {
 		const leaf = this.app.workspace.getMostRecentLeaf();
 
 		if (!leaf || leaf.view.getViewType() !== "graph") {
@@ -56,14 +56,18 @@ export default class GraphRefresherPlugin extends Plugin {
 		}
 
 		//Graph viewを一旦空のビューに切り替えてから再度Graph viewに戻す
-		await leaf.setViewState({
+		requestAnimationFrame(() => {
+			void leaf.setViewState({
 			type: "empty",
-			active: true,
+				active: false,
+			});
 		});
 
+		requestAnimationFrame(() => {
 		void leaf.setViewState({
 			type: "graph",
 			active: true,
+			});
 		});
 
 		console.debug(
@@ -71,7 +75,7 @@ export default class GraphRefresherPlugin extends Plugin {
 		);
 
 		this.idleTimer = window.setTimeout(() => {
-			this.refreshGraphView().catch(console.error);
+			this.refreshGraphView();
 		}, this.settings.intervalDelay);
 	}
 
