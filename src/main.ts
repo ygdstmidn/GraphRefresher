@@ -37,6 +37,9 @@ export default class GraphRefresherPlugin extends Plugin {
 		window.removeEventListener("mousemove", this.onMouseMove);
 		window.removeEventListener("keydown", this.onKeyDown);
 		window.removeEventListener("mousedown", this.onMouseDown);
+		if (this.idleTimer) {
+			window.clearTimeout(this.idleTimer);
+		}
 	}
 
 	resetIdleTimer() {
@@ -58,15 +61,15 @@ export default class GraphRefresherPlugin extends Plugin {
 		//Graph viewを一旦空のビューに切り替えてから再度Graph viewに戻す
 		requestAnimationFrame(() => {
 			void leaf.setViewState({
-			type: "empty",
+				type: "empty",
 				active: false,
 			});
 		});
 
 		requestAnimationFrame(() => {
-		void leaf.setViewState({
-			type: "graph",
-			active: true,
+			void leaf.setViewState({
+				type: "graph",
+				active: true,
 			});
 		});
 
