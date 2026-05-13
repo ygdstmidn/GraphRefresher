@@ -69,7 +69,7 @@ export default class GraphRefresherPlugin extends Plugin {
 		requestAnimationFrame(() => {
 			void leaf.setViewState({
 				type: "graph",
-				active: true,
+				active: false,
 			});
 		});
 
