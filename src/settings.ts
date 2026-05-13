@@ -34,7 +34,7 @@ export class GraphRefresherSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.idleDelay = parseInt(value);
 						await this.plugin.saveSettings();
-					})
+					}),
 			);
 
 		new Setting(containerEl)
@@ -47,7 +47,7 @@ export class GraphRefresherSettingTab extends PluginSettingTab {
 					.onChange(async (value) => {
 						this.plugin.settings.intervalDelay = parseInt(value);
 						await this.plugin.saveSettings();
-					})
+					}),
 			);
 	}
 }

@@ -69,12 +69,12 @@ export default class GraphRefresherPlugin extends Plugin {
 		requestAnimationFrame(() => {
 			void leaf.setViewState({
 				type: "graph",
-				active: true,
+				active: false,
 			});
 		});
 
 		console.debug(
-			"Graph Refresher Plugin: Graph view refreshed due to inactivity."
+			"Graph Refresher Plugin: Graph view refreshed due to inactivity.",
 		);
 
 		this.idleTimer = window.setTimeout(() => {
@@ -86,7 +86,7 @@ export default class GraphRefresherPlugin extends Plugin {
 		this.settings = Object.assign(
 			{},
 			DEFAULT_SETTINGS,
-			(await this.loadData()) as Partial<GraphRefresherPluginSettings>
+			(await this.loadData()) as Partial<GraphRefresherPluginSettings>,
 		);
 	}
 
